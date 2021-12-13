@@ -1,38 +1,51 @@
-.App {
-  text-align: center;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  width: min(1500px, 100vw);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Poppins", sans-serif;
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.forecast {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  overflow-x: scroll;
+  list-style: none;
+  padding: 1.5rem 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.timestamp {
+  /* position: relative; */
+  box-shadow: 0 0 6px #bbbbbb;
+  padding: 0.2rem 0.5rem;
+  /* border: 2px solid #bbbbbb; */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
-}
+/* .timestamp::after {
+  content: "";
+  position: absolute;
+  box-shadow: 0 0 6px #bbbbbb;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  padding: 0.5rem;
+} */
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.temperature > p {
+  width: fit-content;
+  font-size: 0.8rem;
 }
