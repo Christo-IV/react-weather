@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Forecast from "./components/Forecast";
+import Map from "./components/Map";
 import "./App.css";
 
 interface ILocation {
@@ -69,6 +70,9 @@ function App() {
       ) : (
         <p>Loading...</p>
       )}
+
+      <Map />
+
       {weatherData ? (
         <Forecast weatherData={weatherData.list} />
       ) : (

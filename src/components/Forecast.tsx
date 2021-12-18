@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface Props {
   weatherData: Timestamp[];
@@ -18,36 +18,44 @@ type Timestamp = {
   pop: number;
   sys: { pod: string };
   visibility: number;
-  weather: Weather[];
+  weather: IWeather[];
   wind: { speed: number; deg: number; gust: number };
 };
 
-type Weather = { id: number; main: string; description: string; icon: string };
+interface IWeather {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}
 
 const Forecast: React.FC<Props> = ({ weatherData }) => {
   return (
-    <ul className="forecast">
+    <div className="forecast">
       {console.log(weatherData)}
       {weatherData.map((timestamp, index) => {
         return (
-          <li className="timestamp">
+          <div
+            className={index === 0 ? "timestamp current-day" : "timestamp"}
+            key={timestamp.dt}
+          >
             <div className="temperature">
-              <h2>{timestamp.main.temp}C</h2>
-              <p>
+              <h2 className="temp">{timestamp.main.temp}C</h2>
+              <p className="temp-range">
                 {timestamp.main.temp_min} - {timestamp.main.temp_max}C;
               </p>
             </div>
-            <h3>{timestamp.wind.speed} m/s</h3>
-            <p>
+            <p className="wind-speed">{timestamp.wind.speed} m/s</p>
+            <p className="time-of-day">
               {timestamp.dt_txt.substring(
                 timestamp.dt_txt.length - 8,
                 timestamp.dt_txt.length - 3
               )}
             </p>
-          </li>
+          </div>
         );
       })}
-    </ul>
+    </div>
   );
 };
 
