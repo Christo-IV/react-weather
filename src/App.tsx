@@ -57,13 +57,21 @@ function App() {
       getWeather();
   }, [location]);
 
+  const updateLocation = (lat: number, lon: number) => {
+    setLocation({ latitude: lat, longitude: lon });
+  };
+
   return (
     <div className="container">
       {location ? (
         <>
           <p>Lat: {location.latitude}</p>
           <p>Lon: {location.longitude}</p>
-          <Map latitude={location.latitude} longitude={location.longitude} />
+          <Map
+            latitude={location.latitude}
+            longitude={location.longitude}
+            updateLocation={updateLocation}
+          />
         </>
       ) : (
         <p>Loading...</p>
