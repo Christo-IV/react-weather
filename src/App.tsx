@@ -32,9 +32,6 @@ function App() {
         () => alert("This site requires location data")
       );
     }
-
-    // API call
-    console.log(location?.latitude, "/n", location?.longitude);
   }
 
   function getWeather() {
@@ -66,12 +63,11 @@ function App() {
         <>
           <p>Lat: {location.latitude}</p>
           <p>Lon: {location.longitude}</p>
+          <Map latitude={location.latitude} longitude={location.longitude} />
         </>
       ) : (
         <p>Loading...</p>
       )}
-
-      <Map />
 
       {weatherData ? (
         <Forecast weatherData={weatherData.list} />
