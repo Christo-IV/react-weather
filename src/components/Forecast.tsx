@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import "./CSS/Forecast.css";
 
 interface Props {
   weatherData: Timestamp[];
@@ -30,19 +31,28 @@ interface IWeather {
 }
 
 const Forecast: React.FC<Props> = ({ weatherData }) => {
+  const forecastRef = useRef<HTMLDivElement>(null);
+
+  const onScroll = (e: any) => {
+    console.log(e.target.scrollLeft);
+  };
+
   return (
-    <div className="forecast">
-      {console.log(weatherData)}
+    <div className="forecast" ref={forecastRef} onScroll={onScroll}>
       {weatherData.map((timestamp, index) => {
         return (
           <div
-            className={index === 0 ? "timestamp current-day" : "timestamp"}
+            className={
+              "timestamp border " +
+              (index === 0 ? " current-day " : " timestamp ") +
+              (timestamp.main.temp > 0 ? " warm " : " cold ")
+            }
             key={timestamp.dt}
           >
             <div className="temperature">
               <h2 className="temp">{timestamp.main.temp}C</h2>
               <p className="temp-range">
-                {timestamp.main.temp_min} - {timestamp.main.temp_max}C;
+                {timestamp.main.temp_min} .. {timestamp.main.temp_max}
               </p>
             </div>
             <p className="wind-speed">{timestamp.wind.speed} m/s</p>

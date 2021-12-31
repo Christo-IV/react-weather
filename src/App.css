@@ -1,7 +1,18 @@
+:root {
+  --white: rgb(233, 233, 233);
+  --cold: rgba(42, 178, 241, 0.5);
+  --warm: rgba(255, 35, 101, 0.5);
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  color: rgb(185, 185, 185);
+}
+
+body {
+  background-color: rgb(7, 7, 7);
 }
 
 .container {
@@ -14,41 +25,7 @@
   padding: 1rem;
 }
 
-.leaflet-container {
-  height: 50vh;
-  width: 100%;
-  border: 2px solid #bbbbbb;
-  box-shadow: 0 0 6px #bbbbbb;
-}
-
-.forecast {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(auto-fit, 1fr);
-  gap: 1rem;
-  overflow-x: scroll;
-  padding: 0.5rem 6px;
-}
-
-.timestamp {
-  box-shadow: 0 0 6px #bbbbbb;
-  padding: 0.2rem 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 10rem;
-}
-
-.current-day {
-  grid-area: span 1 / span 2;
-  aspect-ratio: 1;
-}
-
-.temp-range,
-.wind-speed {
-  white-space: nowrap;
-}
-
-.temp-range {
-  font-size: 0.8rem;
+.border {
+  border: 3px solid var(--white);
+  border-radius: 0.5rem;
 }

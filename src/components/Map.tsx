@@ -5,72 +5,73 @@ import {
   Marker,
   Popup,
   useMapEvents,
-  MapConsumer,
 } from "react-leaflet";
+import "./CSS/Map.css";
 
-type LatLonFunc = (lat: number, lon: number) => void;
-type NumFunc = (arg: number) => void;
+interface UpdateFunctions {
+  updateLocation: (latitude: number, longitude: number) => void;
+  updateLat: (latiture: number) => void;
+  updateLon: (longitude: number) => void;
+}
 
-// Yes, I know... This code looks like spaghetti... But at least it works.
-
-function ClickHandler({
+const ClickHandler: React.FC<UpdateFunctions> = ({
   updateLocation,
   updateLat,
   updateLon,
-}: {
-  updateLocation: LatLonFunc;
-  updateLat: NumFunc;
-  updateLon: NumFunc;
-}) {
-  const map = useMapEvents({
+}) => {
+  useMapEvents({
     click: (e) => {
-      console.log(e.latlng);
       updateLat(e.latlng.lat);
       updateLon(e.latlng.lng);
       updateLocation(e.latlng.lat, e.latlng.lng);
     },
   });
   return null;
-}
+};
 
 interface Props {
   latitude: number;
   longitude: number;
-  updateLocation: (lat: number, lon: number) => void;
+  updateLocation: (latitude: number, longitude: number) => void;
 }
 
 const Map: React.FC<Props> = ({ latitude, longitude, updateLocation }) => {
   const [lat, setLat] = useState(latitude);
   const [lon, setLon] = useState(longitude);
 
-  console.log("lat: " + lat);
-  console.log("lon: " + lon);
-
-  const updateLat = (lat: number) => {
-    setLat(lat);
+  const updateLat = (latitude: number) => {
+    setLat(latitude);
   };
 
-  const updateLon = (lon: number) => {
-    setLon(lon);
+  const updateLon = (longitude: number) => {
+    setLon(longitude);
   };
 
   return (
-    <MapContainer center={[lat, lon]} zoom={13} scrollWheelZoom={true}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[lat, lon]}>
-        <Popup>
-          A pretty CSS3 popup. <br />
-        </Popup>
-      </Marker>
-      <ClickHandler
-        updateLocation={updateLocation}
-        updateLat={updateLat}
-        updateLon={updateLon}
-      />
-    </MapContainer>
+    <>
+      <div className="overlay">
+        <p>Click on a location to see it's weather</p>
+      </div>
+      <MapContainer
+        center={[lat, lon]}
+        zoom={13}
+        scrollWheelZoom={true}
+        className="border"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[lat, lon]}>
+          <Popup>A pretty hard to read CSS3 popup.</Popup>
+        </Marker>
+        <ClickHandler
+          updateLocation={updateLocation}
+          updateLat={updateLat}
+          updateLon={updateLon}
+        />
+      </MapContainer>
+    </>
   );
 };
 

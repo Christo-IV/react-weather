@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Forecast from "./components/Forecast";
 import Map from "./components/Map";
+import Loading from "./components/Loading";
+import Popup from "./components/Popup";
 import "./App.css";
 
 interface ILocation {
@@ -19,7 +21,10 @@ function App() {
   // API result
   const [weatherData, setWeatherData] = useState<IWeatherData>();
 
-  function getLocation() {
+  // Popup
+  const [showPopup, setShowPopup] = useState(false);
+
+  const getLocation = () => {
     // Get user location
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -29,12 +34,14 @@ function App() {
             longitude: position.coords.longitude,
           });
         },
-        () => alert("This site requires location data")
+        () => {
+          updatePopup(true);
+        }
       );
     }
-  }
+  };
 
-  function getWeather() {
+  const getWeather = () => {
     fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${location?.latitude}&lon=${location?.longitude}&units=metric&appid=${process.env.REACT_APP_API_KEY}`
     )
@@ -44,7 +51,7 @@ function App() {
       .then((data) => {
         setWeatherData(data);
       });
-  }
+  };
 
   // Runs when component is rendered
   useEffect(() => {
@@ -61,12 +68,16 @@ function App() {
     setLocation({ latitude: lat, longitude: lon });
   };
 
+  const updatePopup = (value: boolean) => {
+    setShowPopup(value);
+    return null;
+  };
+
   return (
     <div className="container">
+      {showPopup ? <Popup updatePopup={updatePopup} /> : <></>}
       {location ? (
         <>
-          <p>Lat: {location.latitude}</p>
-          <p>Lon: {location.longitude}</p>
           <Map
             latitude={location.latitude}
             longitude={location.longitude}
@@ -74,14 +85,10 @@ function App() {
           />
         </>
       ) : (
-        <p>Loading...</p>
+        <Loading />
       )}
 
-      {weatherData ? (
-        <Forecast weatherData={weatherData.list} />
-      ) : (
-        <p>Loading...</p>
-      )}
+      {weatherData ? <Forecast weatherData={weatherData.list} /> : <Loading />}
     </div>
   );
 }
