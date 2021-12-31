@@ -85,10 +85,14 @@ function App() {
           />
         </>
       ) : (
-        <Loading />
+        <Loading txt="Map" />
       )}
 
-      {weatherData ? <Forecast weatherData={weatherData.list} /> : <Loading />}
+      {weatherData ? (
+        <Forecast weatherData={weatherData.list} />
+      ) : (
+        <Loading txt="Forecast" />
+      )}
     </div>
   );
 }
